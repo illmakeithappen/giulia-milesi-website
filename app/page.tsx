@@ -40,7 +40,7 @@ export default function Page() {
             className="absolute top-0 left-0 w-full h-full object-cover"
           >
             <source
-              src="/sample-video.mp4"
+              src="/sample-video-optimized.mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.
