@@ -1,0 +1,11 @@
+# Dependencies
+node_modules
+*-lock.json
+
+# Next.js
+.next
+out
+
+# Misc
+.DS_STORE
+.env*.local

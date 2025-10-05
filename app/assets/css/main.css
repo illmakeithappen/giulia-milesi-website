@@ -1,0 +1,88 @@
+@import "tailwindcss";
+@tailwind base;
+
+html,
+body,
+#__nuxt,
+#__layout {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+/* Custom handwritten text effects */
+@layer utilities {
+  .text-handwritten {
+    text-shadow:
+      3px 3px 6px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(255, 255, 255, 0.2),
+      1px 1px 2px rgba(0, 0, 0, 0.5);
+    transform: rotate(-3deg) skew(-2deg, 1deg);
+    letter-spacing: -0.03em;
+  }
+
+  .text-handwritten-glow {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+  }
+
+  /* Signature writing animation */
+  @keyframes signature-write {
+    0% {
+      opacity: 0;
+      stroke-dashoffset: 1000;
+      transform: translateY(20px);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      stroke-dashoffset: 0;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-signature-write {
+    animation: signature-write 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* Subtle floating effect */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(-1deg);
+    }
+    50% {
+      transform: translateY(-5px) rotate(-0.5deg);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Custom underline flourish */
+  .underline-flourish {
+    position: relative;
+  }
+
+  .underline-flourish::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.6) 20%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.6) 80%,
+      transparent
+    );
+    border-radius: 50%;
+  }
+}
