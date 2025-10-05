@@ -50,6 +50,26 @@ export default function Page() {
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
 
+        {/* Clickable Circle Navigation - Upper Right */}
+        <a
+          href="#"
+          className={`absolute top-8 right-8 md:top-12 md:right-12 z-20 w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white/40 backdrop-blur-sm transition-all duration-500 hover:scale-110 hover:border-white/80 hover:bg-white/10 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          style={{
+            transitionDelay: '1500ms',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          }}
+        />
+
+        {/* Clickable Circle Navigation - Lower Left */}
+        <a
+          href="#"
+          className={`absolute bottom-8 left-8 md:bottom-12 md:left-12 z-20 w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white/40 backdrop-blur-sm transition-all duration-500 hover:scale-110 hover:border-white/80 hover:bg-white/10 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          style={{
+            transitionDelay: '1800ms',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          }}
+        />
+
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
           {/* Name with authentic signature font and animation */}
