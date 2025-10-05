@@ -163,7 +163,6 @@ export default function Page() {
               style={{
                 WebkitTextStroke: '4px white',
                 WebkitTextFillColor: 'transparent',
-                textStroke: '4px white',
                 color: 'transparent',
                 transform: 'rotate(-3deg) skewY(-2deg)',
                 letterSpacing: '0.08em',
