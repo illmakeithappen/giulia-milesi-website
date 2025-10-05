@@ -20,6 +20,7 @@ module.exports = {
         'satisfy': ['var(--font-satisfy)', 'cursive'],
         'kaushan': ['var(--font-kaushan)', 'cursive'],
         'cormorant': ['var(--font-cormorant)', 'serif'],
+        'alvara-sans': ['var(--font-alvara-sans)', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 2s ease-in-out',

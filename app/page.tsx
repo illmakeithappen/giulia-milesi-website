@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react"
+import Gallery from "./components/Gallery"
 
 export default function Page() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     // Add fade in effect when page loads
@@ -40,7 +42,7 @@ export default function Page() {
             className="absolute top-0 left-0 w-full h-full object-cover"
           >
             <source
-              src="/sample-video-optimized.mp4"
+              src="/IMG_6964.MOV"
               type="video/mp4"
             />
             Your browser does not support the video tag.
@@ -50,50 +52,125 @@ export default function Page() {
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
 
-        {/* Clickable Circle Navigation - Upper Right */}
-        <a
-          href="#"
-          className={`absolute top-8 right-8 md:top-12 md:right-12 z-20 w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white/40 backdrop-blur-sm transition-all duration-500 hover:scale-110 hover:border-white/80 hover:bg-white/10 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        {/* Expanding Circle Menu */}
+        {/* Menu Circle Button */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white transition-all duration-500 hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isMenuOpen ? 'opacity-0 scale-0' : ''} flex items-center justify-center`}
           style={{
-            transitionDelay: '1500ms',
+            transitionDelay: isMenuOpen ? '0ms' : '1500ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+            mixBlendMode: 'difference',
+          }}
+        >
+          <span className="font-permanent-marker text-xl md:text-2xl text-black lowercase">menu</span>
+        </button>
+
+        {/* Expanding Circle Background - Liquid Zoom Effect */}
+        <div
+          className={`fixed rounded-full transition-all w-20 h-20 md:w-28 md:h-28 top-8 right-8 md:top-12 md:right-12 ${isMenuOpen ? 'z-40' : '-z-10 opacity-0'}`}
+          style={{
+            backgroundColor: 'rgb(240, 244, 248)',
+            transform: isMenuOpen ? 'scale(40)' : 'scale(1)',
+            transformOrigin: 'center center',
+            transition: isMenuOpen
+              ? 'transform 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease-out'
+              : 'transform 0.6s cubic-bezier(0.6, 0.04, 0.98, 0.335), opacity 0.3s ease-in 0.4s',
           }}
         />
+
+        {/* Full-Screen Menu Content */}
+        <div className={`fixed inset-0 z-40 flex items-center justify-end transition-all duration-500 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          {/* Close Button */}
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute top-8 right-8 md:top-12 md:right-12 w-20 h-20 md:w-28 md:h-28 rounded-full bg-black text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
+            style={{
+              transitionDelay: isMenuOpen ? '400ms' : '0ms',
+            }}
+          >
+            <span className="font-permanent-marker text-xl md:text-2xl lowercase">close</span>
+          </button>
+
+          {/* Menu Items - Right Aligned */}
+          <nav className="pr-12 md:pr-24 lg:pr-32" style={{ transitionDelay: isMenuOpen ? '300ms' : '0ms' }}>
+            <ul className="flex flex-col space-y-6 md:space-y-10 items-end text-right">
+              <li style={{ transitionDelay: isMenuOpen ? '400ms' : '0ms' }} className={`transition-all duration-500 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
+                <a
+                  href="#work"
+                  className="font-alvara-sans text-3xl md:text-5xl lg:text-6xl text-gray-900 hover:text-gray-600 transition-colors duration-300 block"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  work
+                </a>
+              </li>
+              <li style={{ transitionDelay: isMenuOpen ? '500ms' : '0ms' }} className={`transition-all duration-500 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
+                <a
+                  href="#events"
+                  className="font-alvara-sans text-3xl md:text-5xl lg:text-6xl text-gray-900 hover:text-gray-600 transition-colors duration-300 block"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  events & talks
+                </a>
+              </li>
+              <li style={{ transitionDelay: isMenuOpen ? '600ms' : '0ms' }} className={`transition-all duration-500 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
+                <a
+                  href="#consulting"
+                  className="font-alvara-sans text-3xl md:text-5xl lg:text-6xl text-gray-900 hover:text-gray-600 transition-colors duration-300 block"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  consulting
+                </a>
+              </li>
+              <li style={{ transitionDelay: isMenuOpen ? '700ms' : '0ms' }} className={`transition-all duration-500 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
+                <a
+                  href="#about"
+                  className="font-alvara-sans text-3xl md:text-5xl lg:text-6xl text-gray-900 hover:text-gray-600 transition-colors duration-300 block"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  about
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
         {/* Clickable Circle Navigation - Lower Left */}
         <a
-          href="#"
-          className={`absolute bottom-8 left-8 md:bottom-12 md:left-12 z-20 w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white/40 backdrop-blur-sm transition-all duration-500 hover:scale-110 hover:border-white/80 hover:bg-white/10 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          href="/shop"
+          className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white transition-all duration-500 hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
           style={{
             transitionDelay: '1800ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+            mixBlendMode: 'difference',
           }}
-        />
+        >
+          <span className="font-permanent-marker text-3xl md:text-4xl text-black lowercase">shop</span>
+        </a>
 
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-          {/* Name with authentic signature font and animation */}
-          <div className={`${isLoaded ? 'animate-signature-write' : 'opacity-0'}`}>
+          {/* Name with artsy font and animation - now sticky */}
+          <div
+            className={`fixed top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              transform: `translate(calc(-50% + ${mousePosition.x * 0.2}px), calc(-50% + ${mousePosition.y * 0.2}px))`,
+              filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.2))',
+            }}
+          >
             <h1
-              className="font-allura text-[6rem] md:text-[8rem] lg:text-[10rem] xl:text-[12rem] font-normal text-white mb-6 cursor-default transition-all duration-500"
+              className="font-permanent-marker text-7xl md:text-[9rem] lg:text-[13rem] xl:text-[15rem] mb-6 leading-tight lowercase"
               style={{
-                transform: `translate(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px)`,
-                letterSpacing: '-0.08em',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3), 0 0 30px rgba(255,255,255,0.1)',
-                filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.2))',
-                WebkitFontSmoothing: 'antialiased',
-                MozOsxFontSmoothing: 'grayscale'
+                WebkitTextStroke: '4px white',
+                WebkitTextFillColor: 'transparent',
+                textStroke: '4px white',
+                color: 'transparent',
+                transform: 'rotate(-3deg) skewY(-2deg)',
+                letterSpacing: '0.08em',
               }}
             >
-              Giulia Milesi
+              giulia<br />milesi
             </h1>
-          </div>
-
-          {/* Subtitle with delayed animation - smaller and more subtle */}
-          <div className={`transition-all duration-[2000ms] delay-[2500ms] ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <p className="font-cormorant text-base md:text-lg lg:text-xl font-light tracking-[0.4em] uppercase text-white/70">
-              Art Consultant
-            </p>
           </div>
 
           {/* Scroll Indicator - Very subtle */}
@@ -115,130 +192,9 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Portfolio Preview Section */}
-      <section id="portfolio" className="bg-white py-32 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <h2 className="font-satisfy text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6">
-              Curated Collection
-            </h2>
-            <p className="font-cormorant text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-              Discover exceptional artworks from contemporary masters and emerging talents,
-              carefully selected for discerning collectors.
-            </p>
-          </div>
+      {/* Gallery Section */}
+      <Gallery />
 
-          {/* Portfolio Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-            {[
-              { id: 1, title: "Abstract Expressionism", artist: "Various Artists" },
-              { id: 2, title: "Contemporary Sculpture", artist: "Selected Works" },
-              { id: 3, title: "Modern Photography", artist: "Curated Collection" },
-              { id: 4, title: "Digital Art", artist: "New Media" },
-              { id: 5, title: "Mixed Media", artist: "Featured Artists" },
-              { id: 6, title: "Fine Art Prints", artist: "Limited Editions" }
-            ].map((item) => (
-              <div
-                key={item.id}
-                className="group relative overflow-hidden cursor-pointer aspect-square bg-gray-100"
-              >
-                <img
-                  src={`https://source.unsplash.com/800x800/?art,gallery,${item.id}`}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="font-cormorant text-2xl text-white mb-2 font-medium">{item.title}</h3>
-                    <p className="font-cormorant text-lg text-white/80">{item.artist}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="bg-gray-50 py-32 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="font-kaushan text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6">
-              Services
-            </h2>
-            <p className="font-cormorant text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
-              Comprehensive art consultancy services tailored to your collection goals
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <h3 className="font-cormorant text-2xl text-gray-900 mb-4 font-semibold">Art Curation</h3>
-              <p className="font-cormorant text-lg text-gray-600 leading-relaxed">
-                Thoughtful selection of artworks that reflect your aesthetic vision and investment objectives
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="font-cormorant text-2xl text-gray-900 mb-4 font-semibold">Collection Management</h3>
-              <p className="font-cormorant text-lg text-gray-600 leading-relaxed">
-                Professional oversight of your art collection including documentation and conservation
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="font-cormorant text-2xl text-gray-900 mb-4 font-semibold">Advisory Services</h3>
-              <p className="font-cormorant text-lg text-gray-600 leading-relaxed">
-                Expert guidance on acquisitions, valuations, and strategic collection development
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="bg-white py-32 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-alex-brush text-5xl md:text-6xl lg:text-7xl text-gray-900 mb-8">
-            Let's Connect
-          </h2>
-          <p className="font-cormorant text-xl md:text-2xl text-gray-600 mb-12">
-            Begin your journey into the world of contemporary art
-          </p>
-          <div className="flex justify-center space-x-12">
-            <a
-              href="mailto:giulia@giuliamilesi.com"
-              className="group font-cormorant text-lg text-gray-900 hover:text-gray-600 transition-colors duration-300"
-            >
-              <span className="relative">
-                Email
-                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gray-900 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </span>
-            </a>
-            <a
-              href="https://instagram.com/giuliamilesi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group font-cormorant text-lg text-gray-900 hover:text-gray-600 transition-colors duration-300"
-            >
-              <span className="relative">
-                Instagram
-                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gray-900 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </span>
-            </a>
-            <a
-              href="https://linkedin.com/in/giuliamilesi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group font-cormorant text-lg text-gray-900 hover:text-gray-600 transition-colors duration-300"
-            >
-              <span className="relative">
-                LinkedIn
-                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gray-900 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </span>
-            </a>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

@@ -1,0 +1,41 @@
+.customTextContainer {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.customHandwritingLetter {
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.customHandwritingLetter:hover {
+  transform: scale(1.05);
+}
+
+/* Color variations */
+.cyan {
+  background-color: #00BFFF;
+}
+
+.white {
+  color: #FFFFFF;
+}
+
+/* Size variations */
+.small {
+  --letter-height: 20px;
+}
+
+.medium {
+  --letter-height: 40px;
+}
+
+.large {
+  --letter-height: 60px;
+}
+
+.xlarge {
+  --letter-height: 80px;
+}

@@ -1,0 +1,22 @@
+{
+  "fontName": "Custom Handwriting",
+  "description": "Handwritten-style font extracted from design assets",
+  "availableCharacters": ["a", "c", "e", "g", "i", "l", "m", "n", "o", "s", "t", "u"],
+  "letterMapping": {
+    "a": "/fonts/custom-handwriting/a.svg",
+    "c": "/fonts/custom-handwriting/c.svg",
+    "e": "/fonts/custom-handwriting/e.svg",
+    "g": "/fonts/custom-handwriting/g.svg",
+    "i": "/fonts/custom-handwriting/i.svg",
+    "l": "/fonts/custom-handwriting/l.svg",
+    "m": "/fonts/custom-handwriting/m.svg",
+    "n": "/fonts/custom-handwriting/n.svg",
+    "o": "/fonts/custom-handwriting/o.svg",
+    "s": "/fonts/custom-handwriting/s.svg",
+    "t": "/fonts/custom-handwriting/t.svg",
+    "u": "/fonts/custom-handwriting/u.svg"
+  },
+  "defaultSpacing": 8,
+  "defaultColor": "#FFFFFF",
+  "recommendedBackgroundColor": "#00BFFF"
+}

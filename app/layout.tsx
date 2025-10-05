@@ -1,6 +1,7 @@
 import "./assets/css/main.css";
 import type { Metadata } from "next";
-import { Allura, Alex_Brush, Satisfy, Kaushan_Script, Cormorant_Garamond } from 'next/font/google';
+import { Allura, Alex_Brush, Satisfy, Kaushan_Script, Cormorant_Garamond, Permanent_Marker } from 'next/font/google';
+import localFont from 'next/font/local';
 
 const allura = Allura({
   subsets: ['latin'],
@@ -37,6 +38,30 @@ const cormorant = Cormorant_Garamond({
   display: 'swap',
 });
 
+const permanentMarker = Permanent_Marker({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-permanent-marker',
+  display: 'swap',
+});
+
+const alvaraSans = localFont({
+  src: [
+    {
+      path: '../public/fonts/AlvaraSansDEMO-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/AlvaraSansDEMO-Italic.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-alvara-sans',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: "Giulia Milesi - Art Consultant",
   description: "Art consultancy services specializing in contemporary art curation and collection management",
@@ -49,7 +74,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${allura.variable} ${alexBrush.variable} ${satisfy.variable} ${kaushan.variable} ${cormorant.variable} font-sans`}>
+      <body className={`${allura.variable} ${alexBrush.variable} ${satisfy.variable} ${kaushan.variable} ${cormorant.variable} ${permanentMarker.variable} ${alvaraSans.variable} font-sans`}>
         {children}
       </body>
     </html>
