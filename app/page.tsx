@@ -32,8 +32,8 @@ export default function Page() {
       const scrollTop = window.scrollY;
       const clientHeight = window.innerHeight;
 
-      // Check if we're within 300px of the bottom (increased for earlier fade)
-      const isBottom = scrollHeight - scrollTop - clientHeight < 300;
+      // Check if we're within 500px of the bottom (increased for earlier fade)
+      const isBottom = scrollHeight - scrollTop - clientHeight < 500;
       setIsAtBottom(isBottom);
     };
 
@@ -81,7 +81,7 @@ export default function Page() {
         {/* Menu Circle Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white md:duration-300 duration-150 hover:scale-110 ${isMenuOpen ? 'opacity-0 scale-0' : isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
+          className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white md:duration-300 duration-100 hover:scale-110 ${isMenuOpen ? 'opacity-0 scale-0' : isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
           style={{
             transitionProperty: 'opacity, transform',
             transitionDelay: isMenuOpen ? '0ms' : '1500ms',
@@ -164,7 +164,7 @@ export default function Page() {
         {/* Clickable Circle Navigation - Lower Left */}
         <a
           href="/shop"
-          className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white md:duration-300 duration-150 hover:scale-110 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
+          className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white md:duration-300 duration-100 hover:scale-110 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
           style={{
             transitionProperty: 'opacity, transform',
             transitionDelay: '1800ms',
@@ -179,7 +179,7 @@ export default function Page() {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
           {/* Name with artsy font and animation - now sticky */}
           <div
-            className={`fixed top-1/2 md:top-[70%] left-8 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 transition-all duration-300 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`fixed top-1/2 md:top-[70%] left-8 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 transition-all md:duration-300 duration-200 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{
               transform: typeof window !== 'undefined' && window.innerWidth >= 768
                 ? `translate(calc(-50% + ${mousePosition.x * 0.2}px), calc(-50% + ${mousePosition.y * 0.2}px))`
