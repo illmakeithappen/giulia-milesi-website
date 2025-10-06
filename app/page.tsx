@@ -81,7 +81,7 @@ export default function Page() {
         {/* Menu Circle Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white transition-all duration-300 hover:scale-110 ${isMenuOpen ? 'opacity-0 scale-0' : ''} flex items-center justify-center`}
+          className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white transition-all md:duration-300 duration-150 hover:scale-110 ${isMenuOpen ? 'opacity-0 scale-0' : ''} flex items-center justify-center`}
           style={{
             transitionDelay: isMenuOpen ? '0ms' : '1500ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
@@ -164,7 +164,7 @@ export default function Page() {
         {/* Clickable Circle Navigation - Lower Left */}
         <a
           href="/shop"
-          className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white transition-all duration-300 hover:scale-110 flex items-center justify-center`}
+          className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white transition-all md:duration-300 duration-150 hover:scale-110 flex items-center justify-center`}
           style={{
             transitionDelay: '1800ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
