@@ -7,28 +7,28 @@ const allura = Allura({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-allura',
-  display: 'swap',
+  display: 'optional',
 });
 
 const alexBrush = Alex_Brush({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-alex-brush',
-  display: 'swap',
+  display: 'optional',
 });
 
 const satisfy = Satisfy({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-satisfy',
-  display: 'swap',
+  display: 'optional',
 });
 
 const kaushan = Kaushan_Script({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-kaushan',
-  display: 'swap',
+  display: 'optional',
 });
 
 const cormorant = Cormorant_Garamond({

@@ -9,11 +9,47 @@ body,
   width: 100% !important;
 }
 
+/* Performance optimizations for all browsers */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU acceleration for transforms and animations */
+video,
+img {
+  will-change: auto;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Safari-specific optimizations */
+@supports (-webkit-appearance: none) {
+  video {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+}
+
 @tailwind components;
 @tailwind utilities;
 
 /* Custom handwritten text effects */
 @layer utilities {
+  /* CSS containment for performance */
+  .contain-layout {
+    contain: layout;
+  }
+
+  .contain-paint {
+    contain: paint;
+  }
+
+  .contain-strict {
+    contain: strict;
+  }
+
   .text-handwritten {
     text-shadow:
       3px 3px 6px rgba(0, 0, 0, 0.3),

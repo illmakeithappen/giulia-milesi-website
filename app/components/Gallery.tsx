@@ -1,41 +1,46 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-
-interface MediaItem {
-  filename: string;
-  type: 'image' | 'video';
-}
+import { useState, useEffect, useRef, useMemo } from "react";
+import { galleryMedia, type MediaItem } from "../lib/galleryData";
 
 export default function Gallery() {
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const videoRefs = useRef<Map<string, HTMLVideoElement>>(new Map());
+  const imageRefs = useRef<Map<string, HTMLImageElement>>(new Map());
 
-  useEffect(() => {
-    // Get all media files from the gallery directory
-    const loadMedia = async () => {
-      try {
-        const response = await fetch('/api/gallery');
-        const files = await response.json();
-
-        // Shuffle the array for random distribution
-        const shuffled = [...files].sort(() => Math.random() - 0.5);
-        setMediaItems(shuffled);
-      } catch (error) {
-        console.error('Error loading media:', error);
-      }
-    };
-
-    loadMedia();
+  // Shuffle media items once on mount
+  const mediaItems = useMemo(() => {
+    return [...galleryMedia].sort(() => Math.random() - 0.5);
   }, []);
 
   useEffect(() => {
+    // Setup intersection observer for lazy loading images
+    const imageObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            const src = img.dataset.src;
+            if (src && !img.src) {
+              img.src = src;
+              img.removeAttribute('data-src');
+            }
+            imageObserver.unobserve(img);
+          }
+        });
+      },
+      { rootMargin: '50px' } // Start loading 50px before entering viewport
+    );
+
     // Setup intersection observer for video autoplay
-    const observer = new IntersectionObserver(
+    const videoObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const video = entry.target as HTMLVideoElement;
           if (entry.isIntersecting) {
+            // Load video if not loaded yet
+            if (video.readyState === 0) {
+              video.load();
+            }
             video.play().catch(() => {
               // Autoplay might be blocked, ignore the error
             });
@@ -47,14 +52,22 @@ export default function Gallery() {
       { threshold: 0.5 } // Play when 50% of video is visible
     );
 
+    // Observe all images
+    imageRefs.current.forEach((img) => {
+      if (img && img.dataset.src) imageObserver.observe(img);
+    });
+
     // Observe all video elements
     videoRefs.current.forEach((video) => {
-      if (video) observer.observe(video);
+      if (video) videoObserver.observe(video);
     });
 
     return () => {
+      imageRefs.current.forEach((img) => {
+        if (img) imageObserver.unobserve(img);
+      });
       videoRefs.current.forEach((video) => {
-        if (video) observer.unobserve(video);
+        if (video) videoObserver.unobserve(video);
       });
     };
   }, [mediaItems]);
@@ -81,13 +94,14 @@ export default function Gallery() {
   const renderMediaItem = (item: MediaItem, index: number, isLeftColumn: boolean) => {
     const actualIndex = isLeftColumn ? index * 2 : index * 2 + 1;
     const aspectRatio = getAspectRatio(actualIndex);
-    // High priority for first 8 images, eager for all
-    const fetchPriority = actualIndex < 8 ? "high" : "auto";
+    // Load first 4 images immediately, lazy load the rest
+    const shouldLazyLoad = actualIndex >= 4;
+    const fetchPriority = actualIndex < 4 ? "high" : "auto";
 
     return (
       <div
         key={item.filename}
-        className="relative overflow-hidden"
+        className="relative w-full overflow-hidden"
       >
         <div className={`relative w-full ${aspectRatio} overflow-hidden bg-gray-100`}>
           {item.type === 'video' ? (
@@ -110,11 +124,28 @@ export default function Gallery() {
                 type={item.filename.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'}
               />
             </video>
+          ) : shouldLazyLoad ? (
+            <img
+              ref={(el) => {
+                if (el) imageRefs.current.set(item.filename, el);
+              }}
+              data-src={`/gallery/${item.filename}`}
+              alt=""
+              width="4032"
+              height="3024"
+              className="w-full h-full object-cover object-center scale-[1.8]"
+              style={{ minHeight: '100%', minWidth: '100%' }}
+              loading="lazy"
+              decoding="async"
+            />
           ) : (
             <img
               src={`/gallery/${item.filename}`}
               alt=""
-              className="w-full h-full object-cover scale-[1.8]"
+              width="4032"
+              height="3024"
+              className="w-full h-full object-cover object-center scale-[1.8]"
+              style={{ minHeight: '100%', minWidth: '100%' }}
               loading="eager"
               decoding="auto"
               fetchPriority={fetchPriority as "high" | "auto"}
@@ -132,11 +163,12 @@ export default function Gallery() {
         {/* Mobile: Single Column */}
         <div className="flex flex-col md:hidden w-full">
           {mediaItems.map((item, index) => {
-            // High priority for first 6 images on mobile
-            const mobileFetchPriority = index < 6 ? "high" : "auto";
+            // Load first 3 images immediately on mobile, lazy load the rest
+            const shouldLazyLoad = index >= 3;
+            const mobileFetchPriority = index < 3 ? "high" : "auto";
 
             return (
-              <div key={item.filename} className="relative overflow-hidden">
+              <div key={item.filename} className="relative w-full overflow-hidden">
                 <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
                   {item.type === 'video' ? (
                     <video
@@ -158,11 +190,28 @@ export default function Gallery() {
                         type={item.filename.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'}
                       />
                     </video>
+                  ) : shouldLazyLoad ? (
+                    <img
+                      ref={(el) => {
+                        if (el) imageRefs.current.set(`mobile-${item.filename}`, el);
+                      }}
+                      data-src={`/gallery/${item.filename}`}
+                      alt=""
+                      width="4032"
+                      height="3024"
+                      className="w-full h-full object-cover object-center scale-[1.8]"
+                      style={{ minHeight: '100%', minWidth: '100%' }}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   ) : (
                     <img
                       src={`/gallery/${item.filename}`}
                       alt=""
-                      className="w-full h-full object-cover scale-[1.8]"
+                      width="4032"
+                      height="3024"
+                      className="w-full h-full object-cover object-center scale-[1.8]"
+                      style={{ minHeight: '100%', minWidth: '100%' }}
                       loading="eager"
                       decoding="auto"
                       fetchPriority={mobileFetchPriority as "high" | "auto"}
