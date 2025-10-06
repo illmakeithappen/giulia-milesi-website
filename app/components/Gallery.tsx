@@ -81,15 +81,15 @@ export default function Gallery() {
   const renderMediaItem = (item: MediaItem, index: number, isLeftColumn: boolean) => {
     const actualIndex = isLeftColumn ? index * 2 : index * 2 + 1;
     const aspectRatio = getAspectRatio(actualIndex);
-    // Load first 6 images eagerly for Safari, rest lazy
-    const imageLoading = actualIndex < 6 ? "eager" : "lazy";
+    // High priority for first 8 images, eager for all
+    const fetchPriority = actualIndex < 8 ? "high" : "auto";
 
     return (
       <div
         key={item.filename}
         className="relative overflow-hidden"
       >
-        <div className={`relative w-full ${aspectRatio} overflow-hidden`}>
+        <div className={`relative w-full ${aspectRatio} overflow-hidden bg-gray-100`}>
           {item.type === 'video' ? (
             <video
               ref={(el) => {
@@ -115,8 +115,9 @@ export default function Gallery() {
               src={`/gallery/${item.filename}`}
               alt=""
               className="w-full h-full object-cover scale-[1.8]"
-              loading={imageLoading as "eager" | "lazy"}
-              decoding="async"
+              loading="eager"
+              decoding="auto"
+              fetchPriority={fetchPriority as "high" | "auto"}
             />
           )}
         </div>
@@ -131,12 +132,12 @@ export default function Gallery() {
         {/* Mobile: Single Column */}
         <div className="flex flex-col md:hidden w-full">
           {mediaItems.map((item, index) => {
-            // Load first 4 images eagerly on mobile for Safari
-            const mobileImageLoading = index < 4 ? "eager" : "lazy";
+            // High priority for first 6 images on mobile
+            const mobileFetchPriority = index < 6 ? "high" : "auto";
 
             return (
               <div key={item.filename} className="relative overflow-hidden">
-                <div className="relative w-full aspect-square overflow-hidden">
+                <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
                   {item.type === 'video' ? (
                     <video
                       ref={(el) => {
@@ -162,8 +163,9 @@ export default function Gallery() {
                       src={`/gallery/${item.filename}`}
                       alt=""
                       className="w-full h-full object-cover scale-[1.8]"
-                      loading={mobileImageLoading as "eager" | "lazy"}
-                      decoding="async"
+                      loading="eager"
+                      decoding="auto"
+                      fetchPriority={mobileFetchPriority as "high" | "auto"}
                     />
                   )}
                 </div>
