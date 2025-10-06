@@ -154,12 +154,14 @@ export default function Page() {
           <div
             className={`fixed top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{
-              transform: `translate(calc(-50% + ${mousePosition.x * 0.2}px), calc(-50% + ${mousePosition.y * 0.2}px))`,
+              transform: window.innerWidth >= 768
+                ? `translate(calc(-50% + ${mousePosition.x * 0.2}px), calc(-50% + ${mousePosition.y * 0.2}px))`
+                : 'translate(-50%, -50%)',
               filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.2))',
             }}
           >
             <h1
-              className="font-permanent-marker text-7xl md:text-[9rem] lg:text-[13rem] xl:text-[15rem] mb-6 leading-tight lowercase"
+              className="font-permanent-marker text-7xl md:text-[9rem] lg:text-[13rem] xl:text-[15rem] mb-6 leading-tight lowercase text-center"
               style={{
                 WebkitTextStroke: '4px white',
                 WebkitTextFillColor: 'transparent',

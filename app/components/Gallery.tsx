@@ -113,23 +113,38 @@ export default function Gallery() {
 
   return (
     <section className="bg-white w-full">
-      {/* Gallery Grid - Two columns with 55/45 split, no gaps */}
-      <div className="flex w-full">
-        {/* Left Column - 55% */}
-        <div className="w-[55%] flex flex-col">
-          {leftColumn.map((item, index) => renderMediaItem(item, index, true))}
-        </div>
+      {/* Gallery Grid - Single column on mobile, two columns on desktop */}
+      <div className="flex flex-col md:flex-row w-full">
+        {/* Mobile: Single Column */}
+        <div className="flex flex-col md:hidden w-full">
+          {mediaItems.map((item, index) => (
+            <div key={item.filename} className="relative overflow-hidden">
+              <div className="relative w-full aspect-square overflow-hidden">
+                {item.type === 'video' ? (
+                  <video
+                    ref={(el) => {
+                      if (el) videoRefs.current.set(item.filename, el);
+                    }}
+                    src={`/gallery/${item.filename}`}
+                    className="w-full h-full object-cover"
+                    loop
+                    muted
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={`/gallery/${item.filename}`}
+                    alt=""
+                    className="w-full h-full object-cover scale-[1.8]"
+                  />
+                )}
+              </div>
+            </div>
+          ))}
 
-        {/* Right Column - 45% */}
-        <div className="w-[45%] flex flex-col">
-          {rightColumn.map((item, index) => renderMediaItem(item, index, false))}
-
-          {/* Spacer to position CV text for perfect bottom scroll alignment */}
-          <div className="h-[60vh]" style={{ backgroundColor: 'rgb(240, 244, 248)' }} />
-
-          {/* Welcome Note and CV Section */}
-          <div className="p-12 pb-12" style={{ backgroundColor: 'rgb(240, 244, 248)' }}>
-            <div className="max-w-md space-y-8">
+          {/* Mobile CV Section */}
+          <div className="p-8 pb-12" style={{ backgroundColor: 'rgb(240, 244, 248)' }}>
+            <div className="max-w-md mx-auto space-y-8">
               {/* Welcome Note */}
               <div className="space-y-4">
                 <h2 className="font-permanent-marker text-3xl lowercase">welcome</h2>
@@ -165,6 +180,60 @@ export default function Gallery() {
             </div>
           </div>
         </div>
+
+        {/* Desktop: Two Columns */}
+        <>
+          {/* Left Column - 55% */}
+          <div className="hidden md:flex w-[55%] flex-col">
+            {leftColumn.map((item, index) => renderMediaItem(item, index, true))}
+          </div>
+
+          {/* Right Column - 45% */}
+          <div className="hidden md:flex w-[45%] flex-col">
+            {rightColumn.map((item, index) => renderMediaItem(item, index, false))}
+
+            {/* Spacer to position CV text for perfect bottom scroll alignment */}
+            <div className="h-[60vh]" style={{ backgroundColor: 'rgb(240, 244, 248)' }} />
+
+            {/* Welcome Note and CV Section */}
+            <div className="p-12 pb-12" style={{ backgroundColor: 'rgb(240, 244, 248)' }}>
+              <div className="max-w-md space-y-8">
+                {/* Welcome Note */}
+                <div className="space-y-4">
+                  <h2 className="font-permanent-marker text-3xl lowercase">welcome</h2>
+                  <p className="font-cormorant text-lg leading-relaxed text-gray-700">
+                    Thank you for visiting my creative space. Here you'll find a curated collection of my work, exploring the intersection of art, culture, and contemporary expression.
+                  </p>
+                </div>
+
+                {/* CV Section */}
+                <div className="space-y-6 border-t border-gray-200 pt-8">
+                  <h3 className="font-permanent-marker text-2xl lowercase">about me</h3>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-cormorant font-semibold text-lg">Education</h4>
+                      <p className="font-cormorant text-gray-600">MA in Art History, Bocconi University</p>
+                      <p className="font-cormorant text-gray-600">BA in Contemporary Art, Milan</p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-cormorant font-semibold text-lg">Experience</h4>
+                      <p className="font-cormorant text-gray-600">Art Consultant & Curator, 2020-Present</p>
+                      <p className="font-cormorant text-gray-600">Gallery Director, Spazio Arte, 2018-2020</p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-cormorant font-semibold text-lg">Specialization</h4>
+                      <p className="font-cormorant text-gray-600">Contemporary Art & Emerging Artists</p>
+                      <p className="font-cormorant text-gray-600">Private Collection Curation</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       </div>
     </section>
   );
