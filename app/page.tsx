@@ -84,9 +84,12 @@ export default function Page() {
           className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white md:duration-300 duration-100 hover:scale-110 ${isMenuOpen ? 'opacity-0 scale-0' : isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
           style={{
             transitionProperty: 'opacity, transform',
-            transitionDelay: isMenuOpen ? '0ms' : '1500ms',
+            transitionDelay: isMenuOpen ? '0ms' : isAtBottom ? '0ms' : '1000ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
             mixBlendMode: 'difference',
+            borderRadius: '50%',
+            willChange: 'transform, opacity',
+            backfaceVisibility: 'hidden',
           }}
         >
           <span className="font-permanent-marker text-xl md:text-2xl text-black lowercase">menu</span>
@@ -102,6 +105,8 @@ export default function Page() {
             transition: isMenuOpen
               ? 'transform 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease-out'
               : 'transform 0.6s cubic-bezier(0.6, 0.04, 0.98, 0.335), opacity 0.3s ease-in 0.4s',
+            borderRadius: '50%',
+            willChange: 'transform, opacity',
           }}
         />
 
@@ -113,6 +118,9 @@ export default function Page() {
             className="absolute top-8 right-8 md:top-12 md:right-12 w-20 h-20 md:w-28 md:h-28 rounded-full bg-black text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
             style={{
               transitionDelay: isMenuOpen ? '400ms' : '0ms',
+              borderRadius: '50%',
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
             }}
           >
             <span className="font-permanent-marker text-xl md:text-2xl lowercase">close</span>
@@ -167,42 +175,43 @@ export default function Page() {
           className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white md:duration-300 duration-100 hover:scale-110 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
           style={{
             transitionProperty: 'opacity, transform',
-            transitionDelay: '1800ms',
+            transitionDelay: isAtBottom ? '0ms' : '1200ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
             mixBlendMode: 'difference',
+            borderRadius: '50%',
+            willChange: 'transform, opacity',
+            backfaceVisibility: 'hidden',
           }}
         >
           <span className="font-permanent-marker text-3xl md:text-4xl text-black lowercase">shop</span>
         </a>
 
-        {/* Hero Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-          {/* Name with artsy font and animation - now sticky */}
-          <div
-            className={`fixed top-1/2 md:top-[70%] left-8 md:left-1/2 md:duration-300 duration-200 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        {/* Name with artsy font and animation - now sticky */}
+        <div
+          className={`fixed top-1/2 left-8 -translate-y-1/2 md:left-[32%] md:top-[calc(49vh-6.5rem)] md:-translate-x-1/2 transition-opacity md:duration-300 duration-200 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          style={{
+            filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.2))',
+            isolation: 'isolate',
+            zIndex: 9999,
+            willChange: 'opacity',
+            transform: 'rotate(-3deg) skewY(-2deg)',
+          }}
+        >
+          <h1
+            className="font-permanent-marker text-7xl md:text-[9rem] lg:text-[13rem] xl:text-[15rem] mb-6 leading-tight lowercase text-left md:text-center"
             style={{
-              transform: typeof window !== 'undefined' && window.innerWidth >= 768
-                ? `translate(calc(-50% + ${mousePosition.x * 0.2}px), calc(-50% + ${mousePosition.y * 0.2}px))`
-                : 'translate(0, -50%)',
-              filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.2))',
-              zIndex: 9999,
-              transitionProperty: 'opacity',
+              WebkitTextStroke: '4px white',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent',
+              letterSpacing: '0.08em',
             }}
           >
-            <h1
-              className="font-permanent-marker text-7xl md:text-[9rem] lg:text-[13rem] xl:text-[15rem] mb-6 leading-tight lowercase text-left md:text-center"
-              style={{
-                WebkitTextStroke: '4px white',
-                WebkitTextFillColor: 'transparent',
-                color: 'transparent',
-                transform: 'rotate(-3deg) skewY(-2deg)',
-                letterSpacing: '0.08em',
-              }}
-            >
-              giulia<br />milesi
-            </h1>
-          </div>
+            giulia<br />milesi
+          </h1>
+        </div>
 
+        {/* Hero Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
           {/* Scroll Indicator - Very subtle */}
           <div className={`absolute bottom-16 transition-all duration-[3000ms] delay-[3000ms] ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
             <div className="animate-bounce">

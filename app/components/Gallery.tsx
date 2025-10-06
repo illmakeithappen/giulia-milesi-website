@@ -113,7 +113,7 @@ export default function Gallery() {
   };
 
   return (
-    <section className="bg-white w-full">
+    <section className="relative z-0 bg-white w-full">
       {/* Gallery Grid - Single column on mobile, two columns on desktop */}
       <div className="flex flex-col md:flex-row w-full">
         {/* Mobile: Single Column */}
