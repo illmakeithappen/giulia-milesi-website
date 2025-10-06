@@ -143,7 +143,7 @@ export default function Gallery() {
           ))}
 
           {/* Mobile CV Section */}
-          <div className="p-8 pb-12" style={{ backgroundColor: 'rgb(240, 244, 248)' }}>
+          <div className="p-8 pb-12 bg-[rgb(240,244,248)]">
             <div className="max-w-md mx-auto space-y-8">
               {/* Welcome Note */}
               <div className="space-y-4">
@@ -193,10 +193,10 @@ export default function Gallery() {
             {rightColumn.map((item, index) => renderMediaItem(item, index, false))}
 
             {/* Spacer to position CV text for perfect bottom scroll alignment */}
-            <div className="h-[60vh]" style={{ backgroundColor: 'rgb(240, 244, 248)' }} />
+            <div className="h-[60vh] bg-white" />
 
             {/* Welcome Note and CV Section */}
-            <div className="p-12 pb-12" style={{ backgroundColor: 'rgb(240, 244, 248)' }}>
+            <div className="p-12 pb-12 bg-white">
               <div className="max-w-md space-y-8">
                 {/* Welcome Note */}
                 <div className="space-y-4">
