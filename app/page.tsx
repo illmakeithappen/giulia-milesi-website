@@ -7,6 +7,7 @@ export default function Page() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
     // Add fade in effect when page loads
@@ -19,8 +20,32 @@ export default function Page() {
       setMousePosition({ x, y });
     };
 
+    // Track scroll position to hide elements at bottom on mobile
+    const handleScroll = () => {
+      const isMobile = window.innerWidth < 768;
+      if (!isMobile) {
+        setIsAtBottom(false);
+        return;
+      }
+
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const clientHeight = window.innerHeight;
+
+      // Check if we're within 100px of the bottom
+      const isBottom = scrollHeight - scrollTop - clientHeight < 100;
+      setIsAtBottom(isBottom);
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   return (
@@ -56,7 +81,7 @@ export default function Page() {
         {/* Menu Circle Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white transition-all duration-500 hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isMenuOpen ? 'opacity-0 scale-0' : ''} flex items-center justify-center`}
+          className={`fixed top-8 right-8 md:top-12 md:right-12 z-50 w-20 h-20 md:w-28 md:h-28 rounded-full bg-white transition-all duration-500 hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isMenuOpen ? 'opacity-0 scale-0' : ''} ${isAtBottom ? 'md:opacity-100 opacity-0' : ''} flex items-center justify-center`}
           style={{
             transitionDelay: isMenuOpen ? '0ms' : '1500ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
@@ -138,7 +163,7 @@ export default function Page() {
         {/* Clickable Circle Navigation - Lower Left */}
         <a
           href="/shop"
-          className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white transition-all duration-500 hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}
+          className={`fixed bottom-8 left-8 md:bottom-12 md:left-12 z-50 w-32 h-32 md:w-40 md:h-40 rounded-full bg-white transition-all duration-500 hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isAtBottom ? 'md:opacity-100 opacity-0' : ''} flex items-center justify-center`}
           style={{
             transitionDelay: '1800ms',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
@@ -152,16 +177,16 @@ export default function Page() {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
           {/* Name with artsy font and animation - now sticky */}
           <div
-            className={`fixed top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`fixed top-1/2 md:top-[70%] left-8 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 z-30 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isAtBottom ? 'md:opacity-100 opacity-0' : ''}`}
             style={{
               transform: window.innerWidth >= 768
                 ? `translate(calc(-50% + ${mousePosition.x * 0.2}px), calc(-50% + ${mousePosition.y * 0.2}px))`
-                : 'translate(-50%, -50%)',
+                : 'translate(0, -50%)',
               filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.2))',
             }}
           >
             <h1
-              className="font-permanent-marker text-7xl md:text-[9rem] lg:text-[13rem] xl:text-[15rem] mb-6 leading-tight lowercase text-center"
+              className="font-permanent-marker text-7xl md:text-[9rem] lg:text-[13rem] xl:text-[15rem] mb-6 leading-tight lowercase text-left md:text-center"
               style={{
                 WebkitTextStroke: '4px white',
                 WebkitTextFillColor: 'transparent',
