@@ -104,6 +104,7 @@ export default function Gallery() {
               src={`/gallery/${item.filename}`}
               alt=""
               className="w-full h-full object-cover scale-[1.8]"
+              loading="lazy"
             />
           )}
         </div>
@@ -136,6 +137,7 @@ export default function Gallery() {
                     src={`/gallery/${item.filename}`}
                     alt=""
                     className="w-full h-full object-cover scale-[1.8]"
+                    loading="lazy"
                   />
                 )}
               </div>

@@ -177,7 +177,7 @@ export default function Page() {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
           {/* Name with artsy font and animation - now sticky */}
           <div
-            className={`fixed top-1/2 md:top-[70%] left-8 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 z-30 transition-all duration-300 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`fixed top-1/2 md:top-[70%] left-8 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 z-[100] transition-all duration-300 ${isAtBottom ? 'opacity-0 md:opacity-100' : isLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{
               transform: typeof window !== 'undefined' && window.innerWidth >= 768
                 ? `translate(calc(-50% + ${mousePosition.x * 0.2}px), calc(-50% + ${mousePosition.y * 0.2}px))`
