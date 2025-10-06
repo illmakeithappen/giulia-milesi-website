@@ -93,12 +93,22 @@ export default function Gallery() {
               ref={(el) => {
                 if (el) videoRefs.current.set(item.filename, el);
               }}
-              src={`/gallery/${item.filename}`}
               className="w-full h-full object-cover"
               loop
               muted
               playsInline
-            />
+              preload="metadata"
+              webkit-playsinline="true"
+            >
+              <source
+                src={`/gallery/${item.filename.replace(/\.MOV$/i, '.mp4')}`}
+                type="video/mp4"
+              />
+              <source
+                src={`/gallery/${item.filename}`}
+                type={item.filename.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'}
+              />
+            </video>
           ) : (
             <img
               src={`/gallery/${item.filename}`}
@@ -126,12 +136,22 @@ export default function Gallery() {
                     ref={(el) => {
                       if (el) videoRefs.current.set(item.filename, el);
                     }}
-                    src={`/gallery/${item.filename}`}
                     className="w-full h-full object-cover"
                     loop
                     muted
                     playsInline
-                  />
+                    preload="metadata"
+                    webkit-playsinline="true"
+                  >
+                    <source
+                      src={`/gallery/${item.filename.replace(/\.MOV$/i, '.mp4')}`}
+                      type="video/mp4"
+                    />
+                    <source
+                      src={`/gallery/${item.filename}`}
+                      type={item.filename.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'}
+                    />
+                  </video>
                 ) : (
                   <img
                     src={`/gallery/${item.filename}`}

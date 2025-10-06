@@ -64,11 +64,18 @@ export default function Page() {
             loop
             muted
             playsInline
+            preload="auto"
+            webkit-playsinline="true"
+            x-webkit-airplay="allow"
             className="absolute top-0 left-0 w-full h-full object-cover"
           >
             <source
-              src="/IMG_6964.MOV"
+              src="/IMG_6964.mp4"
               type="video/mp4"
+            />
+            <source
+              src="/IMG_6964.MOV"
+              type="video/quicktime"
             />
             Your browser does not support the video tag.
           </video>
