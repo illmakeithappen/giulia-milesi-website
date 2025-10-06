@@ -81,6 +81,8 @@ export default function Gallery() {
   const renderMediaItem = (item: MediaItem, index: number, isLeftColumn: boolean) => {
     const actualIndex = isLeftColumn ? index * 2 : index * 2 + 1;
     const aspectRatio = getAspectRatio(actualIndex);
+    // Load first 6 images eagerly for Safari, rest lazy
+    const imageLoading = actualIndex < 6 ? "eager" : "lazy";
 
     return (
       <div
@@ -97,8 +99,7 @@ export default function Gallery() {
               loop
               muted
               playsInline
-              preload="metadata"
-              webkit-playsinline="true"
+              preload="none"
             >
               <source
                 src={`/gallery/${item.filename.replace(/\.MOV$/i, '.mp4')}`}
@@ -114,7 +115,8 @@ export default function Gallery() {
               src={`/gallery/${item.filename}`}
               alt=""
               className="w-full h-full object-cover scale-[1.8]"
-              loading="lazy"
+              loading={imageLoading as "eager" | "lazy"}
+              decoding="async"
             />
           )}
         </div>
@@ -128,41 +130,46 @@ export default function Gallery() {
       <div className="flex flex-col md:flex-row w-full">
         {/* Mobile: Single Column */}
         <div className="flex flex-col md:hidden w-full">
-          {mediaItems.map((item, index) => (
-            <div key={item.filename} className="relative overflow-hidden">
-              <div className="relative w-full aspect-square overflow-hidden">
-                {item.type === 'video' ? (
-                  <video
-                    ref={(el) => {
-                      if (el) videoRefs.current.set(item.filename, el);
-                    }}
-                    className="w-full h-full object-cover"
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    webkit-playsinline="true"
-                  >
-                    <source
-                      src={`/gallery/${item.filename.replace(/\.MOV$/i, '.mp4')}`}
-                      type="video/mp4"
-                    />
-                    <source
+          {mediaItems.map((item, index) => {
+            // Load first 4 images eagerly on mobile for Safari
+            const mobileImageLoading = index < 4 ? "eager" : "lazy";
+
+            return (
+              <div key={item.filename} className="relative overflow-hidden">
+                <div className="relative w-full aspect-square overflow-hidden">
+                  {item.type === 'video' ? (
+                    <video
+                      ref={(el) => {
+                        if (el) videoRefs.current.set(item.filename, el);
+                      }}
+                      className="w-full h-full object-cover"
+                      loop
+                      muted
+                      playsInline
+                      preload="none"
+                    >
+                      <source
+                        src={`/gallery/${item.filename.replace(/\.MOV$/i, '.mp4')}`}
+                        type="video/mp4"
+                      />
+                      <source
+                        src={`/gallery/${item.filename}`}
+                        type={item.filename.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'}
+                      />
+                    </video>
+                  ) : (
+                    <img
                       src={`/gallery/${item.filename}`}
-                      type={item.filename.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'}
+                      alt=""
+                      className="w-full h-full object-cover scale-[1.8]"
+                      loading={mobileImageLoading as "eager" | "lazy"}
+                      decoding="async"
                     />
-                  </video>
-                ) : (
-                  <img
-                    src={`/gallery/${item.filename}`}
-                    alt=""
-                    className="w-full h-full object-cover scale-[1.8]"
-                    loading="lazy"
-                  />
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {/* Mobile CV Section */}
           <div className="p-8 pb-12 bg-[rgb(240,244,248)]">

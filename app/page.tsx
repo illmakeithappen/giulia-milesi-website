@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Gallery from "./components/Gallery"
 
 export default function Page() {
@@ -8,6 +8,7 @@ export default function Page() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     // Add fade in effect when page loads
@@ -48,6 +49,15 @@ export default function Page() {
     };
   }, []);
 
+  // Ensure video autoplays in Safari
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay blocked, user interaction required
+      });
+    }
+  }, []);
+
   return (
     <main className="relative min-h-screen bg-black">
       {/* Video Hero Section */}
@@ -60,13 +70,13 @@ export default function Page() {
           }}
         >
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
-            preload="auto"
-            webkit-playsinline="true"
-            x-webkit-airplay="allow"
+            defaultMuted
+            preload="metadata"
             className="absolute top-0 left-0 w-full h-full object-cover"
           >
             <source
