@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="giulia milesi — private experiences, bespoke activations, and advisory." />
     <title>giulia milesi</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="logo-final.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="site-header">
       <a class="wordmark brand-transition" href="#top" aria-label="giulia milesi — home">
         <span class="wordmark-text">giulia milesi</span>
-        <img class="wordmark-symbol" src="favicon.svg" alt="" aria-hidden="true" />
+        <img class="wordmark-symbol" src="logo-final.svg" alt="" aria-hidden="true" />
       </a>
-      <span class="header-location">berlin / zurich</span>
+      <span class="header-location"><span>berlin</span><span aria-hidden="true">/</span><span>zurich</span></span>
       <nav class="header-nav" aria-label="Sections">
         <a href="#services">services</a>
         <span aria-hidden="true">/</span>
@@ -30,19 +30,23 @@
       <div class="chapters">
         <div class="sticky-bar chapter-bar">
           <p class="chapter-label">services</p>
-          <div class="sticky-links" aria-hidden="true">
-            <span>private experiences</span>
-            <span>bespoke activations</span>
-            <span>advisory</span>
-          </div>
         </div>
 
         <section class="services" id="services" aria-label="Services">
           <div class="services-body">
             <div class="service-index">
-              <a href="#contact"><span>01</span><span>private experiences</span></a>
-              <a href="#contact"><span>02</span><span>bespoke activations</span></a>
-              <a href="#contact"><span>03</span><span>advisory</span></a>
+              <div class="service-item">
+                <span class="service-number">01</span>
+                <span class="service-title">event management</span>
+              </div>
+              <div class="service-item">
+                <span class="service-number">02</span>
+                <span class="service-title">bespoke activations</span>
+              </div>
+              <div class="service-item">
+                <span class="service-number">03</span>
+                <span class="service-title">experience consulting</span>
+              </div>
             </div>
           </div>
         </section>
@@ -50,7 +54,9 @@
         <section class="contact" id="contact" aria-label="Contact">
           <div class="contact-body">
             <a href="mailto:contact@giuliamilesi.com">
-              <span aria-hidden="true">↗</span>
+              <svg class="contact-arrow" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M5 27 27 5M11 5h16v16" />
+              </svg>
               <span>get in touch</span>
             </a>
           </div>
